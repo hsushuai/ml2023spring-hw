@@ -5,7 +5,7 @@
 | Completed | #                          | Topic                  | Task             | Baseline Achievement |
 |-----------|----------------------------|------------------------|------------------|----------------------|
 | ✅         | [HW 1](HW1-Regression)     | Regression             | 预测 COVID 新增病例百分比 | Strong               |
-| ✅         | [HW 2](HW2-Classification) | Classification         | phoneme 辨识       | Strong               |
+| ✅         | [HW 2](HW2-Classification) | Classification         | Phoneme 辨识       | Strong               |
 |           | HW 3                       | CNN                    |                  |                      |
 |           | HW 4                       | Self-attention         |                  |                      |
 |           | HW 5                       | Transformer            |                  |                      |
