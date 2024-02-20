@@ -18,7 +18,7 @@ Frequency Cepstral Coefficient) 特征。
 ![task](misc/task.png)
 
 - Training data: 3429 个预处理后的 MFCC 特征 (2116794 帧)；
-- Test data: 个预处理后的 MFCC 特征 (527364 帧)；
+- Test data: 857 个预处理后的 MFCC 特征 (527364 帧)；
 - Label: 41 个类别, 每一个类代表一个音素。
 
 TA 已经将特征提取并以 Tensor 格式保存与`libriphone` 文件夹中：
