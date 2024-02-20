@@ -8,7 +8,7 @@ def create_dataloader(data_dir, output_dir, batch_size, train, concat_nframes, v
     r"""Create training and validation dataloader or testing dataloader
 
     Args:
-        data_dir (str): `libriphone` folder path.
+        data_dir (str): Path to `ml2023spring-hw2.zip` directory.
         output_dir (str): Path to unzip the `ml2023spring-hw2.zip`.
         batch_size (int): The number of samples included in each batch.
         train (bool): Training and validation dataloader or test dataloader.

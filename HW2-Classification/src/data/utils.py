@@ -52,7 +52,7 @@ def preprocess_data(data_dir, output_dir, concat_nframes, train, valid_ratio):
     r"""Load and preprocess train and valid data or test data.
 
     Args:
-        data_dir (str): Path to `libriphone` folder.
+        data_dir (str): Path to `ml2023spring-hw2.zip` directory.
         output_dir (str): Path to unzip the `ml2023spring-hw2.zip`.
         concat_nframes (int): Totals frame after concat past and future features.
         train (bool): Preprocess the training or test dataset.
