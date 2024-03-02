@@ -46,7 +46,7 @@ args, remaining_args = parser.parse_known_args()
 # ====================
 #     Load Configs
 # ====================
-configs = load_configs(os.path.join("configs", f"{args.hw}_config.yaml"))
+configs = load_configs(os.path.join("configs", f"{args.hw}-config.yaml"))
 
 
 # ===================

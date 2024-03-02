@@ -1,23 +1,27 @@
 # Ensure that your "data_dir" contains the following items:
 #
 # data_dir/
-# |-- covid_train.csv
-# |-- covid_test.csv
+#   - feat/
+#       - test/
+#       - train/
+#   - test_split.txt
+#   - train_labels.txt
+#   - train_split.txt
 data:
   data_dir: "data/ml2023spring-hw2"
   seed: 8590  # Your seed number, you can pick your lucky number. :)
-  valid_ratio: 0.1  # validation_size = train_size * valid_ratio
-  concat_nframes: 19  # Totals frame after concat past and future features, n must be odd (total 2k + 1 = n frames).
+  valid_ratio: 0.1
+  concat_nframes: 39  # Totals frame after concat past and future features, n must be odd (total 2k + 1 = n frames).
 
 model:
-  num_layers: 2
+  num_layers: 3
   hidden_size: 256
 
 training:
-  batch_size: 256
+  batch_size: 512
   max_epochs: 15
   learning_rate: 0.001
   weight_decay: 0.0001
-  dropout: 0.2
+  dropout: 0.5
   early_stopping: 3  # If models has not improved for this many consecutive epochs, stop training.
   output_dir: "output"

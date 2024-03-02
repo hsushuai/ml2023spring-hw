@@ -48,7 +48,7 @@ class Trainer(HyperParameters):
             if self.early_stopping < self.stale:  # early stopping
                 training_time = (time.time() - start_time) / 60
                 logger.info(f"Training halted as the model did not exhibit improvement. Best validation {self.model.metrics[0]}: {self.model.metrics[1]:.3f}, Total time: {training_time:.2f} min.")
-                break
+                return
         training_time = (time.time() - start_time) / 60
         logger.info(f"All epochs training complete. Best validation {self.model.metrics[0]}: {self.model.metrics[1]:.3f}, Total time: {training_time:.2f} min.")
 
@@ -56,7 +56,7 @@ class Trainer(HyperParameters):
         loss_list, acc_list = [], []
         # training
         self.model.train()
-        for idx, batch in tqdm(enumerate(self.train_dataloader)):
+        for idx, batch in enumerate(tqdm(self.train_dataloader)):
             # step
             loss, acc = self.model.step(self.prepare_batch(batch))
             self.optim.zero_grad()
@@ -84,7 +84,7 @@ class Trainer(HyperParameters):
         # validation
         self.model.eval()
         loss_list, acc_list = [], []
-        for idx, batch in tqdm(enumerate(self.valid_dataloader)):
+        for idx, batch in enumerate(tqdm(self.valid_dataloader)):
             with torch.no_grad():
                 loss, acc = self.model.step(self.prepare_batch(batch))
 

@@ -1,1 +1,2 @@
-from .data import COVID19, Libriphone
+from .covid19 import COVID19
+from .libriphone import Libriphone

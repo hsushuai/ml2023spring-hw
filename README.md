@@ -1,4 +1,4 @@
-# Solutions for Spring 2023 Machine Learning (taught by Prof. Hung-yi Lee) course assignments.
+# Solutions for Spring 2023 *Machine Learning* (taught by Prof. Hung-yi Lee) course assignments.
 
 ## 📖 Homework List
 

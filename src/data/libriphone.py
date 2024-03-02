@@ -10,54 +10,6 @@ from tqdm import tqdm
 logger = logging.getLogger(__name__)
 
 
-class COVID19(DataModule):
-    """The Covid-19 dataset of hw1."""
-    def __init__(self, batch_size, valid_ratio, root):
-        super().__init__(root, batch_size)
-        self.save_hyperparameters()
-        filepath = os.path.join(self.root, "covid_train.csv")
-        logger.info(f"Loading dataset from '{filepath}'.")
-        try:
-            data = pd.read_csv(filepath)
-        except Exception as e:
-            logger.critical(e)
-            raise e
-        logger.info(f"Dataset loaded successfully. Total samples: {len(data)}, data size: {data.shape}.")
-        data = torch.Tensor(self._preprocess(data))
-        self.X, self.y = data[:, :-1], data[:, -1]
-        self.num_valid = int(len(data) * valid_ratio)
-        self.num_train = len(data) - self.num_valid
-        self.shape = data.shape
-
-    def __sizeof__(self):
-        return self.shape
-
-    def _preprocess(self, data, shuffle=True):
-        """Select useful features to perform regression."""
-        logger.info("Preprocessing data: selecting features.")
-        cor = data.corr()["tested_positive"]
-        best_cor = cor[cor > 0.5]
-        data = data[best_cor.index]
-        # shuffle
-        if shuffle:
-            data = data.sample(frac=1).reset_index(drop=True)
-        logger.info(f"Data preprocessing completed. Data size: {data.shape}.")
-        return data.values
-
-    def test_dataloader(self, num_workers=0, pin_memory=False):
-        filepath = os.path.join(self.root, "covid_test.csv")
-        logger.info(f"Loading dataset from '{filepath}'.")
-        try:
-            data = pd.read_csv(filepath)
-        except Exception as e:
-            logger.critical(e)
-            raise e
-        logger.info(f"Dataset loaded successfully. Total samples: {len(data)}, data size: {data.shape}.")
-        data = torch.Tensor(self._preprocess(data, shuffle=False))
-        dataset = TensorDataset(data)
-        return DataLoader(dataset, self.batch_size, shuffle=False, num_workers=num_workers, pin_memory=pin_memory)
-
-
 class Libriphone(DataModule):
     concat_nframes: int  # n must be odd.
 
@@ -81,13 +33,13 @@ class Libriphone(DataModule):
                 self.X = torch.cat((self.X, feat), dim=0)
                 label = torch.LongTensor(label_dict[feat_id])
                 self.y = torch.cat((self.y, label), dim=0)
+            self.X = self.X.view(-1, self.concat_nframes, 39)  # feature dim is 39
             logger.info(f"Dataset loaded successfully. Data size: {self.X.shape}.")
         except Exception as e:
             logger.critical(e)
             raise e
         self.num_valid = int(self.X.shape[0] * valid_ratio)
         self.num_train = self.X.shape[0] - self.num_valid
-        self.shape = (self.X.shape[0], self.X.shape[1] + 1)
 
     def _preprocess(self, feat):
         """Concatenate past and future features frames."""
@@ -131,6 +83,7 @@ class Libriphone(DataModule):
                 feat = torch.load(os.path.join(self.root, "feat", "test", f"{feat_id}.pt"))
                 feat = self._preprocess(feat)
                 X = torch.cat((X, feat), dim=0)
+            X = X.view(-1, self.concat_nframes, 39)  # feature dim is 39
             logger.info(f"Dataset loaded successfully. Data size: {X.shape}.")
         except Exception as e:
             logger.critical(e)

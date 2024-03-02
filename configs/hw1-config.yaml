@@ -1,9 +1,8 @@
 # Ensure that your "data_dir" contains the following items:
 #
-# data_dir/
-# │
-# ├── covid_train.csv
-# └── covid_test.csv
+# data_dir
+#   - covid_train.csv
+#   - covid_test.csv
 
 data:
   data_dir: "data/ml2023spring-hw1"
