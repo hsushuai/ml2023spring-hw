@@ -84,7 +84,6 @@ class Libriphone(DataModule):
         return feat.permute(1, 0, 2).view(seq_len, self.concat_nframes * feat_dim)
 
     def test_dataloader(self, num_workers=0, pin_memory=False):
-        logger.info(f"Loading dataset from '{self.root}'.")
         try:
             X = self._load_data(train=False)
             logger.info(f"Dataset loaded successfully. Feature size: {X.shape}.")

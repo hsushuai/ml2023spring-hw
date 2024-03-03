@@ -88,7 +88,7 @@ class Trainer(HyperParameters):
         msg = f"Epoch {self.epoch + 1}/{self.max_epochs}, "
         num_steps = self.num_train_batches if train else self.num_valid_batches
         split_type = "Train" if train else "Valid"
-        msg += f"step={self.num_train_batches} | {split_type} " if train else f"step={self.num_valid_batches} | {split_type} "
+        msg += f"step={num_steps:<{len(str(self.num_train_batches))}} | {split_type} "
         for i, kv in enumerate(metrics):
             msg += f"{kv[0]}: {kv[1] / len(metrics):.4f}" if i == 0 else f", {kv[0]}: {kv[1] / len(metrics):.4f}"
             self.writer.add_scalars(kv[0], {split_type: kv[1] / len(metrics)}, self.epoch + 1)
@@ -98,9 +98,8 @@ class Trainer(HyperParameters):
     def compare_and_save(self, metrics: Metrics):
         if (metrics.downward and metrics.main / len(metrics) < self.best_metric) or \
                 (not metrics.downward and metrics.main / len(metrics) > self.best_metric):
-            fp = os.path.join(self.output_dir, "model.pt")
-            torch.save(self.model, fp)
-            logger.info(f"Saved current best model in {fp}.")
+            torch.save(self.model, os.path.join(self.output_dir, "model.pt"))
+            logger.info(f"Saved current best model.")
             self.best_metric = metrics.main / len(metrics)
             self.stale = 0
         else:

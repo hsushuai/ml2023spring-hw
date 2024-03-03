@@ -18,6 +18,7 @@ def hw1(configs):
 
     logger.info("Building neural network model.")
     model = LinearRegression(configs["hidden_size"], configs["num_layers"], configs["learning_rate"], configs["weight_decay"])
+    logger.info(model)
 
     trainer = Trainer(configs["max_epochs"], configs["output_dir"], configs["early_stopping"])
     trainer.fit(model, data)
@@ -42,6 +43,7 @@ def hw2(configs):
 
     logger.info("Building neural network model.")
     model = PhonemeClassifier(configs["hidden_size"], configs["num_layers"], configs["concat_nframes"], configs["learning_rate"], configs["dropout"], configs["weight_decay"])
+    logger.info(model)
 
     trainer = Trainer(configs["max_epochs"], configs["output_dir"], configs["early_stopping"])
     trainer.fit(model, data)
