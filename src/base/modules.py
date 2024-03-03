@@ -3,6 +3,7 @@ from torch import nn
 import torch
 import torch.nn.functional as F
 from torch.utils.data import TensorDataset, DataLoader
+from ..utils import Metrics
 
 
 class HyperParameters:
@@ -21,18 +22,22 @@ class Module(nn.Module, HyperParameters):
     """The base class of models."""
     train_loss: float
     valid_loss: float
+    metrics: Metrics
 
     def __init__(self, lr):
         super().__init__()
         self.save_hyperparameters()
-        self.metrics = ["loss", float("inf")]
+        self.metrics = Metrics("loss", 0.0)
+        self.metrics.set_main("loss", True)
 
     def forward(self, X):
         assert hasattr(self, "net"), "Neural network is not defined"
         return self.net(X)
 
     def step(self, batch):
-        return self.loss(self(*batch[:-1]), batch[-1]), None
+        loss = self.loss(self(*batch[:-1]), batch[-1])
+        self.metrics.add("loss", loss.item())
+        return loss
 
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=self.lr)
@@ -46,7 +51,8 @@ class Classifier(Module):
     def __init__(self, lr):
         super().__init__(lr)
         self.save_hyperparameters()
-        self.metrics = ["acc", 0]
+        self.metrics = Metrics("loss", 0.0, "acc", 0.0)
+        self.metrics.set_main("acc", False)
 
     def accuracy(self, logits, labels, averaged=True):
         """Compute the number of correct predictions."""
@@ -54,7 +60,11 @@ class Classifier(Module):
         return compare.mean() if averaged else compare
 
     def step(self, batch):
-        return self.loss(self(*batch[:-1]), batch[-1]), self.accuracy(self(*batch[:-1]), batch[-1])
+        X, y = batch
+        logits = self(X)
+        loss = self.loss(logits, y)
+        self.metrics.add("loss", loss.item(), "acc", self.accuracy(logits, y))
+        return loss
 
     def loss(self, logits, labels, averaged=True):
         logits = logits.reshape((-1, logits.shape[-1]))

@@ -31,7 +31,7 @@ class LinearRegression(Module):
         self.eval()
         preds = []
         with torch.no_grad():
-            for X in tqdm(test_loader):
+            for X in test_loader:
                 X = X[0].cuda()
                 y_hat = self(X)
                 preds.extend(y_hat.cpu().numpy())

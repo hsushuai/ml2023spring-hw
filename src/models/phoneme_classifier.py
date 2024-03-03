@@ -14,37 +14,31 @@ class PhonemeClassifier(Classifier):
     concat_nframes: int
     weight_decay: float
 
-    def __init__(self, hidden_size, num_layers, batch_size, concat_nframes, lr, dropout, weight_decay):
+    def __init__(self, hidden_size, num_layers, concat_nframes, lr, dropout, weight_decay):
         super().__init__(lr)
         self.save_hyperparameters()
-        self.lstm = nn.LSTM(39, hidden_size, num_layers, dropout=dropout, bidirectional=True, batch_first=True)  # feature_dim = 39
-        # self.fc = nn.LazyLinear(41)  # 41 classes.
+        self.lstm = nn.LSTM(39, hidden_size, num_layers, dropout=dropout, bidirectional=True,
+                            batch_first=True)  # feature_dim = 39
         self.fc = nn.Sequential(
             nn.BatchNorm1d(hidden_size * 2),
             nn.ReLU(),
-            nn.LazyLinear(41)
+            nn.LazyLinear(41)  # 41 classes.
         )
 
     def configure_optimizers(self):
         return torch.optim.AdamW(self.parameters(), lr=self.lr, weight_decay=self.weight_decay)
 
     def forward(self, X):
-        # output, _ = self.lstm(X)
-        # return self.fc(output[:, -1, :])  # (batch_size, 41)
+        X = X.view(-1, self.concat_nframes, 39)  # feature_dim = 39
         out, (h_n, c_n) = self.lstm(X)
         return self.fc(torch.cat([h_n[-2, :, :], h_n[-1, :, :]], dim=1))
-
-    def step(self, batch):
-        X, y = batch
-        logits = self(X)
-        return self.loss(logits, y), self.accuracy(logits, y)
 
     def predict(self, test_loader):
         logger.info("Predicting on the test set.")
         self.eval()
         preds = []
         with torch.no_grad():
-            for X in tqdm(test_loader):
+            for X in test_loader:
                 X = X[0].cuda()
                 logits = self(X)
                 _, pred = torch.max(logits, 1)

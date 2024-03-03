@@ -53,7 +53,7 @@ def hw2(configs):
     model = torch.load(fp)
     preds = model.predict(test_loader)
 
-    fp = os.path.join(configs["output_dir"], "test_preds.csv")
+    fp = os.path.join(configs["output_dir"], "submission.csv")
     pd.DataFrame({"Class": preds}).to_csv(fp, index_label="Id")
     logger.info(f"Predict completed, saved the results in {fp}.")
 

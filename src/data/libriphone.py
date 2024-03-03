@@ -13,28 +13,39 @@ logger = logging.getLogger(__name__)
 class Libriphone(DataModule):
     concat_nframes: int  # n must be odd.
 
+    def _load_data(self, train=True):
+        logger.info(f"Loading dataset from '{self.root}'.")
+        label_dict = {}
+        if train:
+            for line in open(os.path.join(self.root, "train_labels.txt")).readlines():
+                line = line.strip("\n").split(" ")
+                label_dict[line[0]] = [int(p) for p in line[1:]]
+        feat_ids = open(os.path.join(self.root, "train_split.txt")).readlines() if train else open(os.path.join(self.root, "test_split.txt")).readlines()
+        feat_ids = [i.strip("\n") for i in feat_ids]
+        max_len = 3000000
+        X = torch.empty(max_len, 39 * self.concat_nframes)
+        y = torch.empty(max_len, dtype=torch.long) if train else None
+        idx = 0
+        for feat_id in tqdm(feat_ids):
+            feat = torch.load(os.path.join(self.root, "feat", "train", f"{feat_id}.pt")) if train else torch.load(os.path.join(self.root, "feat", "test", f"{feat_id}.pt"))
+            feat = self._preprocess(feat)
+            cur_len= len(feat)
+            X[idx:idx + cur_len, :] = feat
+            if train:
+                label = torch.LongTensor(label_dict[feat_id])
+                y[idx: idx + cur_len] = label
+            idx += cur_len
+        if train:
+            return X[:idx, :], y[:idx]
+        else:
+            return X[:idx, :]
+
     def __init__(self, batch_size, valid_ratio, concat_nframes, root):
         super().__init__(batch_size, root)
         self.save_hyperparameters()
-
-        label_dict = {}
-        logger.info(f"Loading dataset from '{self.root}'.")
         try:
-            for line in open(os.path.join(self.root, "train_labels.txt")):
-                line = line.strip("\n").split(" ")
-                label_dict[line[0]] = [int(p) for p in line[1:]]
-            with open(os.path.join(self.root, "train_split.txt")) as f:
-                feat_ids = f.readlines()
-            feat_ids = [i.strip("\n") for i in feat_ids]
-            self.X, self.y = torch.Tensor([]), torch.LongTensor([])
-            for feat_id in tqdm(feat_ids):
-                feat = torch.load(os.path.join(self.root, "feat", "train", f"{feat_id}.pt"))
-                feat = self._preprocess(feat)
-                self.X = torch.cat((self.X, feat), dim=0)
-                label = torch.LongTensor(label_dict[feat_id])
-                self.y = torch.cat((self.y, label), dim=0)
-            self.X = self.X.view(-1, self.concat_nframes, 39)  # feature dim is 39
-            logger.info(f"Dataset loaded successfully. Data size: {self.X.shape}.")
+            self.X, self.y = self._load_data()
+            logger.info(f"Dataset loaded successfully. Feature size: {self.X.shape}, Label size: {self.y.shape}.")
         except Exception as e:
             logger.critical(e)
             raise e
@@ -75,16 +86,8 @@ class Libriphone(DataModule):
     def test_dataloader(self, num_workers=0, pin_memory=False):
         logger.info(f"Loading dataset from '{self.root}'.")
         try:
-            with open(os.path.join(self.root, "test_split.txt")) as f:
-                feat_ids = f.readlines()
-            feat_ids = [i.strip("\n") for i in feat_ids]
-            X = torch.Tensor([])
-            for feat_id in tqdm(feat_ids):
-                feat = torch.load(os.path.join(self.root, "feat", "test", f"{feat_id}.pt"))
-                feat = self._preprocess(feat)
-                X = torch.cat((X, feat), dim=0)
-            X = X.view(-1, self.concat_nframes, 39)  # feature dim is 39
-            logger.info(f"Dataset loaded successfully. Data size: {X.shape}.")
+            X = self._load_data(train=False)
+            logger.info(f"Dataset loaded successfully. Feature size: {X.shape}.")
         except Exception as e:
             logger.critical(e)
             raise e
