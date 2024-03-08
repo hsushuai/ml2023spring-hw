@@ -1,0 +1,19 @@
+# Ensure that your "data_dir" contains the following items:
+#
+# data_dir/
+#   - test/
+#   - train/
+#   - valid/
+data:
+  data_dir: "data/ml2023spring-hw3"
+  seed: 8590  # Your seed number, you can pick your lucky number. :)
+
+model: "resnet101"  # alexnet, resnet18, resnet50, resnet101, squeezenet1_0, densenet121
+
+training:
+  batch_size: 64
+  max_epochs: 1000
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  early_stopping: 200  # If models has not improved for this many consecutive epochs, stop training.
+  output_dir: "output"

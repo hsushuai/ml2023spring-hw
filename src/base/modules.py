@@ -20,8 +20,7 @@ class HyperParameters:
 
 class Module(nn.Module, HyperParameters):
     """The base class of models."""
-    train_loss: float
-    valid_loss: float
+    lr: float
     metrics: Metrics
 
     def __init__(self, lr):

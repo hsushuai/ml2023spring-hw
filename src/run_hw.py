@@ -2,9 +2,9 @@ import os.path
 import time
 
 from src.trainer import Trainer
-from src.models import LinearRegression, PhonemeClassifier
+from src.models import LinearRegression, PhonemeClassifier, FoodClassifier
 from src.utils import same_seeds
-from src.data import COVID19, Libriphone
+from src.data import COVID19, Libriphone, Food11
 import torch
 import logging
 import pandas as pd
@@ -61,8 +61,26 @@ def hw2(configs):
 
 
 def hw3(configs):
-    print("Running hw3")
-    print(configs)
+    same_seeds(configs["seed"])
+    data = Food11(configs["data_dir"], configs["batch_size"])
+
+    logger.info("Building neural network model.")
+    model = FoodClassifier(configs["learning_rate"], configs["weight_decay"], configs["model"])
+    logger.info(model)
+
+    trainer = Trainer(configs["max_epochs"], configs["output_dir"], configs["early_stopping"])
+    trainer.fit(model, data)
+
+    test_loader, test_tfm_loader = data.test_dataloader()
+    fp = os.path.join(configs["output_dir"], "model.pt")
+    logger.info(f"Loading the pre-trained model from '{fp}'.")
+
+    model = torch.load(fp)
+    preds = model.predict(test_loader, test_tfm_loader)
+
+    fp = os.path.join(configs["output_dir"], "submission.csv")
+    pd.DataFrame({"Category": preds}).to_csv(fp, index_label="Id")
+    logger.info(f"Predict completed, saved the results in {fp}.")
 
 
 def hw4(configs):

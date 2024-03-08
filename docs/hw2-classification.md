@@ -30,7 +30,7 @@ TA 已经将特征提取并以 Tensor 格式保存与`libriphone` 文件夹中�
 由于每帧只有 25 ms 的语音，单个帧不太可能表示一个完整的音素，一个音素会跨越多个帧。
 所以我们连接相邻的帧用于训练。
 
-![concat n frames](misc/contact_nframes.png)
+![concat n frames](misc/hw2-contact_nframes.png)
 
 ## 🎯 Baseline
 
