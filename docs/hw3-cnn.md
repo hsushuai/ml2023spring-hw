@@ -2,7 +2,7 @@
 
 ## 📖 Introduction
 
-[HW3](https://www.kaggle.com/competitions/ml2023spring-hw3)) 的任务是食物图片分类，共 **11 个类别**。
+[HW3](https://www.kaggle.com/competitions/ml2023spring-hw3) 的任务是食物图片分类，共 **11 个类别**。
 
 - Training set: 10000 labeled images
 - Validation set: 3643 labeled images
@@ -83,7 +83,7 @@ data_dir/
 ## 🎭 Tricks
 
 - 使用 AdamW 作优化器
-- augmentation:
+- Augmentation:
   ```python
   transform_train = transforms.Compose([
               transforms.RandomResizedCrop(244, scale=(0.08, 1.0), ratio=(3.0 / 4.0, 4.0 / 3.0)),
@@ -98,9 +98,12 @@ data_dir/
       transforms.ToTensor(),
       transforms.Normalize([0.4914, 0.4822, 0.4465], [0.2023, 0.1994, 0.2010])])
   ```
-- ensemble：对 test 数据集分别使用 transform_train 和 transform_test，然后合并两种输出。
-  - $\text{logits} = 0.2 × \text{model}(\text{transform\_test}(\mathbf{X})) + 0.8 × \text{model}(
-    \text{transform\_train}(\mathbf{X}))$
+- Ensemble：对 test 数据集分别使用 `transform_train` 和 `transform_test`，然后合并两种输出。
+  - $\text{logits} = (1-\lambda) \cdot \mathcal{F}_\text{test}(\mathbf{X}) + \lambda \cdot \mathcal{F}_\text{train}(\mathbf{X})$
+    - 其中，$\lambda \in [0, 1]$ 是一个可调节的超参数，用于控制测试集在 `transform_train` 和 `transform_test` 变换下输出的权重
+    - $\mathcal{F}_\text{test}(\mathbf{X})$ 和 $\mathcal{F}_\text{train}(\mathbf{X})$ 分别表示 `transform_train` 和 `transform_test` 变换
+
+通过这种优化,公式不仅更加简洁和优雅,而且也更易于阅读和理解。在实际代码实现时,相应的函数和变量命名也可以遵循这种约定,有助于提高代码的可读性和可维护性。
 
 ## 🙌 Contribute
 
