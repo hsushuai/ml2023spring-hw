@@ -19,12 +19,13 @@
 
 ## 🎯 Baseline
 
+
 |        | Public Baseline | Hints                                                     | Training Time                               | Public | Private |
-|--------|-----------------|-----------------------------------------------------------|---------------------------------------------|--------|---------|
-| Simple | 0.637           | Run Sample Code                                           | 0.5hr - 1hr on Colab                        | ✅      | ✅       |
-| Medium | 0.700           | Do some Data Augmentation & Train longer                  | 1.5hr - 2hr on Colab                        | ✅      | ✅       |
-| Strong | 0.814           | Use predefined CNN from torchvision or TensorFlow         | 10hr - 12hr on Colab (Suggest using Kaggle) | ✅      | ✅       |
-| Boss   | 0.874           | Cross Validation + Ensemble or any other methods you know | 40+hr on Kaggle                             | ❌      | ❌       |
+| ------ | --------------- | --------------------------------------------------------- | ------------------------------------------- | ------ | ------- |
+| Simple | 0.637           | Run Sample Code                                           | 0.5hr - 1hr on Colab                        | ✅     | ✅      |
+| Medium | 0.700           | Do some Data Augmentation & Train longer                  | 1.5hr - 2hr on Colab                        | ✅     | ✅      |
+| Strong | 0.814           | Use predefined CNN from torchvision or TensorFlow         | 10hr - 12hr on Colab (Suggest using Kaggle) | ✅     | ✅      |
+| Boss   | 0.874           | Cross Validation + Ensemble or any other methods you know | 40+hr on Kaggle                             | ✅     | ✅      |
 
 ## ⚡ Quick Start
 
@@ -59,7 +60,7 @@ data_dir/
 
 ### Leader board Score
 
-![score](misc/hw2-score.png)
+![score](misc/hw3-score.png)
 
 ### Network Architecture
 
@@ -67,8 +68,9 @@ data_dir/
 
 ### Configs
 
+
 | Section  | Parameter      | Value     |
-|----------|----------------|-----------|
+| -------- | -------------- | --------- |
 | model    | name           | resnet101 |
 | training | batch_size     | 64        |
 |          | max_epochs     | 1000      |
@@ -97,8 +99,8 @@ data_dir/
       transforms.Normalize([0.4914, 0.4822, 0.4465], [0.2023, 0.1994, 0.2010])])
   ```
 - ensemble：对 test 数据集分别使用 transform_train 和 transform_test，然后合并两种输出。
-    - $\text{logits} = 0.2 × \text{model}(\text{transform\_test}(\mathbf{X})) + 0.8 × \text{model}(
-      \text{transform\_train}(\mathbf{X}))$
+  - $\text{logits} = 0.2 × \text{model}(\text{transform\_test}(\mathbf{X})) + 0.8 × \text{model}(
+    \text{transform\_train}(\mathbf{X}))$
 
 ## 🙌 Contribute
 
