@@ -5,8 +5,8 @@
 | Completed | #                                  | Topic                  | Task             | Public Baseline | Private Baseline |
 |-----------|------------------------------------|------------------------|------------------|-----------------|------------------|
 | ✅         | [HW 1](docs/hw1-regression.md)     | Regression             | 预测 COVID-19 新增病例 | Boss            | Strong           |
-| ✅         | [HW 2](docs/hw2-classification.md) | Classification         | Phoneme 分类       | Strong          |                  |
-|           | HW 3                               | CNN                    |                  |                 |                  |
+| ✅         | [HW 2](docs/hw2-classification.md) | Classification         | Phoneme 分类       | Strong          | Strong           |
+| ✅         | [HW 3](docs/hw3-cnn.md)            | CNN                    | 食物分类             | Boss            | Boss             |
 |           | HW 4                               | Self-attention         |                  |                 |                  |
 |           | HW 5                               | Transformer            |                  |                 |                  |
 |           | HW 6                               | Generative Model       |                  |                 |                  |
@@ -51,12 +51,10 @@ python main.py hw1
 
 运行命令**必须指定需要运行的作业**，可以是从 `hw1` 一直到 `hw15`。
 
-此外，你还可以在命令中添加可选参数，参数名称为对应作业中对应的 [configs](configs)。以 HW 1 为例，可以在命令中任意设置 [hw1-config](configs/hw1-config.yaml)
+此外，你还可以在命令中添加可选参数，参数名称为对应作业中对应的 [configs](configs)。以 HW 1
+为例，可以在命令中任意设置 [hw1-config](configs/hw1-config.yaml)
 中的参数，比如：
 
 ```bash
 python main.py hw1 --max_epochs 3000 --data_dir /mnt/data --output_dir /mnt/output
 ```
-
-
-

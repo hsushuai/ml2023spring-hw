@@ -86,17 +86,17 @@ data_dir/
 
 ### Configs
 
-| Section  | Parameter      | Value    |
-|----------|----------------|----------|
-| data     | concat_nframes | 19       |
-| model    | num_layers     | 3        |
-|          | hidden_size    | 256      |
-| training | batch_size     | 512      |
-|          | max_epochs     | 15       |
-|          | learning_rate  | 0.001    |
-|          | weight_decay   | 0.0001   |
-|          | dropout        | 0.5      |
-|          | early_stopping | 3        |
+| Section  | Parameter      | Value  |
+|----------|----------------|--------|
+| data     | concat_nframes | 19     |
+| model    | num_layers     | 3      |
+|          | hidden_size    | 256    |
+| training | batch_size     | 512    |
+|          | max_epochs     | 15     |
+|          | learning_rate  | 0.001  |
+|          | weight_decay   | 0.0001 |
+|          | dropout        | 0.8    |
+|          | early_stopping | 3      |
 
 其中设置更大的 `concat_nframes` 可以缓慢地提升网络能力，但是会显著降低训练速度！
 我尝试了直接把 `concat_nframes` 增加到 39，但是分数之提升到了 0.778，距离 Boss 还差很远。
@@ -107,7 +107,8 @@ data_dir/
 
 - 使用 AdamW 作优化器
 - 双向 LSTM 向前和向后的输出直接连接起来
-- Batch normalization 的效果要比 dropout 的效果好一丢丢
+- fc 中使用 batch normalization 的效果要比 dropout 的效果好一丢丢
+- LSTM 中的 dropout 设置大一些（0.8）可以缓解过拟合
 
 ## 🙌 Contribute
 
