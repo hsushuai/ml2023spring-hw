@@ -2,3 +2,6 @@
 /data/
 /output/
 /dev.py
+**/__pycache__/
+/.vscode/
+/src.zip

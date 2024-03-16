@@ -1,4 +1,7 @@
 import torch
+import math
+from torch.optim import Optimizer
+from torch.optim.lr_scheduler import LambdaLR
 
 
 def cpu():
@@ -27,3 +30,19 @@ def try_all_gpus():
     """Return all available GPUs, or [cpu(),] if no GPU exists."""
     return [gpu(i) for i in range(num_gpus())]
 
+
+class InfiniteDataLoader:
+    def __init__(self, dataloader):
+        self.dataloader = dataloader
+        self.iterator = iter(dataloader)
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        try:
+            batch = next(self.iterator)
+        except StopIteration:
+            self.iterator = iter(self.dataloader)
+            batch = next(self.iterator)
+        return batch

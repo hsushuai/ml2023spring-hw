@@ -19,13 +19,12 @@
 
 ## 🎯 Baseline
 
-
 |        | Public Baseline | Hints                                                     | Training Time                               | Public | Private |
-| ------ | --------------- | --------------------------------------------------------- | ------------------------------------------- | ------ | ------- |
-| Simple | 0.637           | Run Sample Code                                           | 0.5hr - 1hr on Colab                        | ✅     | ✅      |
-| Medium | 0.700           | Do some Data Augmentation & Train longer                  | 1.5hr - 2hr on Colab                        | ✅     | ✅      |
-| Strong | 0.814           | Use predefined CNN from torchvision or TensorFlow         | 10hr - 12hr on Colab (Suggest using Kaggle) | ✅     | ✅      |
-| Boss   | 0.874           | Cross Validation + Ensemble or any other methods you know | 40+hr on Kaggle                             | ✅     | ✅      |
+|--------|-----------------|-----------------------------------------------------------|---------------------------------------------|--------|---------|
+| Simple | 0.637           | Run Sample Code                                           | 0.5hr - 1hr on Colab                        | ✅      | ✅       |
+| Medium | 0.700           | Do some Data Augmentation & Train longer                  | 1.5hr - 2hr on Colab                        | ✅      | ✅       |
+| Strong | 0.814           | Use predefined CNN from torchvision or TensorFlow         | 10hr - 12hr on Colab (Suggest using Kaggle) | ✅      | ✅       |
+| Boss   | 0.874           | Cross Validation + Ensemble or any other methods you know | 40+hr on Kaggle                             | ✅      | ✅       |
 
 ## ⚡ Quick Start
 
@@ -43,7 +42,7 @@ unzip ml2023spring-hw3.zip
 python main.py hw3 --data_dir YOUR_DATA_DIRECTORY --output YOUR_OUTPUT_DIRECTORY
 ```
 
-你需要将 `YOUR_DATA_DIRECTORY` 和 `YOUR_OUTPUT_DIRECTORY` 替换成实际的数据目录和输出目录，默认为 'data/ml2023spring-hw2'
+你需要将 `YOUR_DATA_DIRECTORY` 和 `YOUR_OUTPUT_DIRECTORY` 替换成实际的数据目录和输出目录，默认为 'data/ml2023spring-hw3'
 和 'output'。
 
 ❗ 注意，请确保数据目录结构如下：
@@ -68,9 +67,8 @@ data_dir/
 
 ### Configs
 
-
 | Section  | Parameter      | Value     |
-| -------- | -------------- | --------- |
+|----------|----------------|-----------|
 | model    | name           | resnet101 |
 | training | batch_size     | 64        |
 |          | max_epochs     | 1000      |
@@ -99,11 +97,11 @@ data_dir/
       transforms.Normalize([0.4914, 0.4822, 0.4465], [0.2023, 0.1994, 0.2010])])
   ```
 - Ensemble：对 test 数据集分别使用 `transform_train` 和 `transform_test`，然后合并两种输出。
-  - $\text{logits} = (1-\lambda) \cdot \mathcal{F}_\text{test}(\mathbf{X}) + \lambda \cdot \mathcal{F}_\text{train}(\mathbf{X})$
-    - 其中，$\lambda \in [0, 1]$ 是一个可调节的超参数，用于控制测试集在 `transform_train` 和 `transform_test` 变换下输出的权重
-    - $\mathcal{F}_\text{test}(\mathbf{X})$ 和 $\mathcal{F}_\text{train}(\mathbf{X})$ 分别表示 `transform_train` 和 `transform_test` 变换
-
-通过这种优化,公式不仅更加简洁和优雅,而且也更易于阅读和理解。在实际代码实现时,相应的函数和变量命名也可以遵循这种约定,有助于提高代码的可读性和可维护性。
+    - $\text{logits} = (1-\lambda) \cdot \mathcal{F}_\text{test}(\mathbf{X}) + \lambda \cdot \mathcal{F}_\text{train}(
+      \mathbf{X})$
+        - 其中，$\lambda \in [0, 1]$ 是一个可调节的超参数，用于控制测试集在 `transform_train` 和 `transform_test` 变换下输出的权重
+        - $\mathcal{F}_\text{test}(\mathbf{X})$ 和 $\mathcal{F}_\text{train}(\mathbf{X})$ 分别表示 `transform_train`
+          和 `transform_test` 变换
 
 ## 🙌 Contribute
 

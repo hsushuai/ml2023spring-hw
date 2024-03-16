@@ -2,23 +2,23 @@
 
 ## 📖 Homework List
 
-| Completed | #                                  | Topic                  | Task             | Public Baseline | Private Baseline |
-|-----------|------------------------------------|------------------------|------------------|-----------------|------------------|
+| Completed | #                                  | Topic                  | Task                   | Public Baseline | Private Baseline |
+| --------- | ---------------------------------- | ---------------------- | ---------------------- | --------------- | ---------------- |
 | ✅         | [HW 1](docs/hw1-regression.md)     | Regression             | 预测 COVID-19 新增病例 | Boss            | Strong           |
-| ✅         | [HW 2](docs/hw2-classification.md) | Classification         | Phoneme 分类       | Strong          | Strong           |
-| ✅         | [HW 3](docs/hw3-cnn.md)            | CNN                    | 食物分类             | Boss            | Boss             |
-|           | HW 4                               | Self-attention         |                  |                 |                  |
-|           | HW 5                               | Transformer            |                  |                 |                  |
-|           | HW 6                               | Generative Model       |                  |                 |                  |
-|           | HW 7                               | BERT                   |                  |                 |                  |
-|           | HW 8                               | Auto-encoder           |                  |                 |                  |
-|           | HW 9                               | Explainable AI         |                  |                 |                  |
-|           | HW 10                              | Attack                 |                  |                 |                  |
-|           | HW 11                              | Adaptation             |                  |                 |                  |
-|           | HW 12                              | Reinforcement Learning |                  |                 |                  |
-|           | HW 13                              | Network Compression    |                  |                 |                  |
-|           | HW 14                              | Life-long Learning     |                  |                 |                  |
-|           | HW 15                              | Meta Learning          |                  |                 |                  |
+| ✅         | [HW 2](docs/hw2-classification.md) | Classification         | Phoneme 分类           | Strong          | Strong           |
+| ✅         | [HW 3](docs/hw3-cnn.md)            | CNN                    | 食物分类               | Boss            | Boss             |
+| ✅         | [HW 4](docs/hw4-self_attention.md) | Self-Attention         | Speaker 识别           | Boss            | Boss             |
+|           | HW 5                               | Transformer            |                        |                 |                  |
+|           | HW 6                               | Generative Model       |                        |                 |                  |
+|           | HW 7                               | BERT                   |                        |                 |                  |
+|           | HW 8                               | Auto-encoder           |                        |                 |                  |
+|           | HW 9                               | Explainable AI         |                        |                 |                  |
+|           | HW 10                              | Attack                 |                        |                 |                  |
+|           | HW 11                              | Adaptation             |                        |                 |                  |
+|           | HW 12                              | Reinforcement Learning |                        |                 |                  |
+|           | HW 13                              | Network Compression    |                        |                 |                  |
+|           | HW 14                              | Life-long Learning     |                        |                 |                  |
+|           | HW 15                              | Meta Learning          |                        |                 |                  |
 
 ## ⚡ Quick Start
 
@@ -30,10 +30,9 @@ cd ml2023spring
 pip install -r requirements.txt
 ```
 
-### Download Data
+### 🔢 Download Data
 
-在 [releases](https://github.com/hsushuai/ml2023spring-hw/releases) 中下载对应作业的数据文件，并解压。
-或者复制对应的下载连接，使用 `wget` 下载，以 HW 1 为例：
+在 [releases](https://github.com/hsushuai/ml2023spring-hw/releases) 中下载对应作业的数据文件，或使用 `wget` 下载，以 HW 1 为例：
 
 ```bash
 wget https://github.com/hsushuai/ml2023spring-hw/releases/download/dataset/ml2023spring-hw1.zip
@@ -41,7 +40,7 @@ wget https://github.com/hsushuai/ml2023spring-hw/releases/download/dataset/ml202
 unzip ml2023spring-hw1.zip
 ```
 
-### Running
+### 🏃‍♂️ Running
 
 以 HW 1 为例：
 

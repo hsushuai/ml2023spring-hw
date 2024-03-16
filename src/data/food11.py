@@ -60,7 +60,7 @@ class Food11(DataModule):
         return DataLoader(self.train_ds, self.batch_size, shuffle=True, num_workers=num_workers, pin_memory=pin_memory)
 
     def valid_dataloader(self, num_workers=4, pin_memory=True):
-        return DataLoader(self.valid_ds, self.batch_size, shuffle=True, num_workers=num_workers, pin_memory=pin_memory)
+        return DataLoader(self.valid_ds, self.batch_size, shuffle=False, num_workers=num_workers, pin_memory=pin_memory)
 
     def test_dataloader(self, num_workers=4, pin_memory=False):
         logger.info(f"Loading dataset from {self.root}")
